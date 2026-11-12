@@ -1,33 +1,24 @@
 package com.example.a04.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.a04.Adapters.AdapterFavorito;
 import com.example.a04.R;
 import com.example.a04.api.Filme;
-import com.example.a04.api.FilmeApi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Favorito_fragment extends Fragment {
 
@@ -35,6 +26,7 @@ public class Favorito_fragment extends Fragment {
     private RecyclerView recycler_favorites;
     private AdapterFavorito adapter;
     private ArrayList<Filme> filmes;
+
     //API
     public Favorito_fragment() {
     }
@@ -66,7 +58,7 @@ public class Favorito_fragment extends Fragment {
                 .collection("favoritos")
                 .document("filmes")
                 .get().addOnCompleteListener(resultado -> {
-                    if(resultado.isSuccessful()) {
+                    if (resultado.isSuccessful()) {
                         DocumentSnapshot documento = resultado.getResult();
                         if (documento.exists() && documento != null) {
                             ArrayList<Map<String, Object>> favoritos =

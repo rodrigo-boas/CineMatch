@@ -1,11 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme._04" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Base.Theme.CineMatch" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme._04" parent="Base.Theme._04" />
+    <style name="Theme.CineMatch" parent="Base.Theme.CineMatch" />
 
     <style name="RoundedCorners">
         <item name="cornerFamily">rounded</item>

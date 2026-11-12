@@ -1,6 +1,5 @@
 package com.example.a04;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -83,36 +81,35 @@ public class TelaCadastro extends AppCompatActivity {
         String email = edtEmail.getText().toString();
         String senha = edtSenha.getText().toString();
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Snackbar snac = Snackbar.make(v, "Usuário cadastrado com sucesso", Snackbar.LENGTH_SHORT);
-                            snac.setTextColor(Color.BLACK).setBackgroundTint(Color.WHITE).show();
-                            salvarDados();
-                        } else {
-                            String erro;
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Snackbar snac = Snackbar.make(v, "Usuário cadastrado com sucesso", Snackbar.LENGTH_SHORT);
+                    snac.setTextColor(Color.BLACK).setBackgroundTint(Color.WHITE).show();
+                    salvarDados();
+                } else {
+                    String erro;
 
-                            try {
-                                throw task.getException();
-                            } catch (FirebaseAuthWeakPasswordException e) {
-                                erro = "A senha deve conter pelo menos 6 caracteres";
-                            } catch (FirebaseAuthUserCollisionException e) {
-                                erro = "Já existe um usuário com esse email";
-                            } catch (FirebaseAuthInvalidCredentialsException e) {
-                                erro = "Formato inválido de email";
-                            } catch (FirebaseNetworkException e) {
-                                erro = "Erro de rede: verifique sua conexão e tente novamente";
-                            } catch (Exception e) {
-                                erro = "Erro ao cadastrar conta";
-                            }
-
-                            Snackbar snac = Snackbar.make(v, erro, Snackbar.LENGTH_SHORT);
-                            snac.setTextColor(Color.BLACK).setBackgroundTint(Color.WHITE).show();
-                        }
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthWeakPasswordException e) {
+                        erro = "A senha deve conter pelo menos 6 caracteres";
+                    } catch (FirebaseAuthUserCollisionException e) {
+                        erro = "Já existe um usuário com esse email";
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                        erro = "Formato inválido de email";
+                    } catch (FirebaseNetworkException e) {
+                        erro = "Erro de rede: verifique sua conexão e tente novamente";
+                    } catch (Exception e) {
+                        erro = "Erro ao cadastrar conta";
                     }
-                });
+
+                    Snackbar snac = Snackbar.make(v, erro, Snackbar.LENGTH_SHORT);
+                    snac.setTextColor(Color.BLACK).setBackgroundTint(Color.WHITE).show();
+                }
+            }
+        });
     }
 
     private void salvarDados() {

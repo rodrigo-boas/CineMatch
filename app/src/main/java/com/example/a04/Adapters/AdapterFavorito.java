@@ -2,11 +2,9 @@ package com.example.a04.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,7 +55,7 @@ public class AdapterFavorito extends RecyclerView.Adapter<AdapterFavorito.FilmeV
 
         holder.button_delete.setOnClickListener(v -> {
             int posicao = holder.getBindingAdapterPosition();
-            if(posicao != RecyclerView.NO_POSITION) {
+            if (posicao != RecyclerView.NO_POSITION) {
                 Filme filmeDeletado = listaFilmes.get(posicao);
 
                 Map<String, Object> filmeMap = new HashMap<>();
@@ -84,10 +82,9 @@ public class AdapterFavorito extends RecyclerView.Adapter<AdapterFavorito.FilmeV
                 notifyItemRemoved(posicao);
                 notifyItemRangeChanged(posicao, listaFilmes.size());
 
-                if(listaFilmes.isEmpty()) {
+                if (listaFilmes.isEmpty()) {
                     text_empty_favorites.setVisibility(View.VISIBLE);
                 }
-
 
 
             }

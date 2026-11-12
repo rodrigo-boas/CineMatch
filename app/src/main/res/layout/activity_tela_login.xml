@@ -83,6 +83,24 @@
                 android:textSize="18sp"
                 app:cornerRadius="12dp" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="Logo do TMDB"
+                android:src="@drawable/tmdb_logo" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="This product uses the TMDB API but is not endorsed or certified by TMDB."
+                android:textColor="#666666"
+                android:textSize="11sp" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

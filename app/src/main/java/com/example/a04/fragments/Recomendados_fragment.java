@@ -1,20 +1,15 @@
 package com.example.a04.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import com.example.a04.Adapters.AdapterDescobrir;
 import com.example.a04.Adapters.AdapterRecomendados;
 import com.example.a04.BuildConfig;
 import com.example.a04.R;
@@ -26,8 +21,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
-import com.yuyakaido.android.cardstackview.CardStackView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -62,16 +55,12 @@ public class Recomendados_fragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recomendados, container, false);
 
         recycler_recommendations = view.findViewById(R.id.recycler_recommendations);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        retrofit = new Retrofit.Builder().baseUrl("https://api.themoviedb.org/3/").addConverterFactory(GsonConverterFactory.create()).build();
 
         filmesLista = new HashSet<>();
         filmes = new ArrayList<>();
@@ -114,25 +103,21 @@ public class Recomendados_fragment extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("Usuários")
-                .document(usuario.getUid())
-                .collection("generos")
-                .orderBy("peso", Query.Direction.DESCENDING)
-                .limit(3).get().addOnSuccessListener(resultado -> {
-                    if (resultado.isEmpty()) {
-                        procurarFilmes();
-                    } else {
-                        usuarioTemGeneros = true;
+        db.collection("Usuários").document(usuario.getUid()).collection("generos").orderBy("peso", Query.Direction.DESCENDING).limit(3).get().addOnSuccessListener(resultado -> {
+            if (resultado.isEmpty()) {
+                procurarFilmes();
+            } else {
+                usuarioTemGeneros = true;
 
-                        for (QueryDocumentSnapshot documento : resultado) {
-                            Long idGenero = documento.getLong("id");
-                            if (idGenero != null) {
-                                generosSalvos.add(idGenero.intValue());
-                            }
-                        }
-                        procurarFilmes(generosSalvos);
+                for (QueryDocumentSnapshot documento : resultado) {
+                    Long idGenero = documento.getLong("id");
+                    if (idGenero != null) {
+                        generosSalvos.add(idGenero.intValue());
                     }
-                });
+                }
+                procurarFilmes(generosSalvos);
+            }
+        });
     }
 
     private void procurarFilmes() {

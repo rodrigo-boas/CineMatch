@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+.idea/
+*.apk
+*.aab
+*.jks
+*.keystore

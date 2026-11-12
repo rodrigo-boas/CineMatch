@@ -26,8 +26,6 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 public class TelaLogin extends AppCompatActivity {
 
@@ -86,32 +84,31 @@ public class TelaLogin extends AppCompatActivity {
         String email = edtEmail.getText().toString();
         String senha = edtSenha.getText().toString();
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Snackbar snac = Snackbar.make(v, "Login realizado", Snackbar.LENGTH_SHORT);
-                            snac.setTextColor(Color.BLACK).setBackgroundTint(Color.WHITE).show();
-                            trocarTela(MainActivity.class, true);
-                        } else {
-                            String erro;
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Snackbar snac = Snackbar.make(v, "Login realizado", Snackbar.LENGTH_SHORT);
+                    snac.setTextColor(Color.BLACK).setBackgroundTint(Color.WHITE).show();
+                    trocarTela(MainActivity.class, true);
+                } else {
+                    String erro;
 
-                            try {
-                                throw task.getException();
-                            } catch (FirebaseAuthInvalidCredentialsException e) {
-                                erro = "Email ou senha incorretos";
-                            } catch (FirebaseNetworkException e) {
-                                erro = "Erro de rede: verifique sua conexão e tente novamente";
-                            } catch (Exception e) {
-                                erro = "Erro ao cadastrar conta";
-                            }
-
-                            Snackbar snac = Snackbar.make(v, erro, Snackbar.LENGTH_SHORT);
-                            snac.setTextColor(Color.BLACK).setBackgroundTint(Color.WHITE).show();
-                        }
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                        erro = "Email ou senha incorretos";
+                    } catch (FirebaseNetworkException e) {
+                        erro = "Erro de rede: verifique sua conexão e tente novamente";
+                    } catch (Exception e) {
+                        erro = "Erro ao cadastrar conta";
                     }
-                });
+
+                    Snackbar snac = Snackbar.make(v, erro, Snackbar.LENGTH_SHORT);
+                    snac.setTextColor(Color.BLACK).setBackgroundTint(Color.WHITE).show();
+                }
+            }
+        });
     }
 
     private void trocarTela(Class novaTela, boolean finish) {
@@ -126,9 +123,7 @@ public class TelaLogin extends AppCompatActivity {
             Network network = cm.getActiveNetwork();
             if (network != null) {
                 NetworkCapabilities nc = cm.getNetworkCapabilities(network);
-                return nc != null &&
-                        (nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                                nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
+                return nc != null && (nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
             }
         }
         return false;
